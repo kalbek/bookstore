@@ -4,8 +4,12 @@
 
 * {
   box-sizing: border-box;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: #fafafa;
 }
 
 nav * {
@@ -30,13 +34,47 @@ nav * {
 }
 
 .books {
-    margin-top: 1rem;
+  margin-top: 1rem;
+  background-color: #fff;
+  width: 90%;
 }
 
 .gap-1 {
-    gap: 0.5rem;
+  gap: 0.5rem;
 }
 
 .control {
-    margin-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.fade {
+  color: #898989;
+}
+
+.add-books {
+  margin-top: 2rem;
+}
+
+input[type='text'] {
+  background-color: #fff;
+  width: 30vw;
+  height: 5vh;
+  border: 1px solid #ededed;
+}
+
+input[type='select'] {
+  background-color: #fff;
+  border: 1px solid #ededed;
+}
+
+form button {
+  padding: 0 2rem;
+  background-color: #0290ff;
+  border: 0 solid #0290ff;
+  border-radius: 5px;
+}
+
+form button * {
+  color: #ededed;
+  font-weight: bold;
 }
