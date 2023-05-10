@@ -55,19 +55,20 @@ nav * {
   margin-top: 2rem;
 }
 
-input[type='text'] {
+input[type="text"] {
   background-color: #fff;
   width: 30vw;
   height: 5vh;
   border: 1px solid #ededed;
 }
 
-input[type='select'] {
+input[type="select"] {
   background-color: #fff;
   border: 1px solid #ededed;
 }
 
 form button {
+  cursor: pointer;
   padding: 0 2rem;
   background-color: #0290ff;
   border: 0 solid #0290ff;

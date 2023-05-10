@@ -2,29 +2,27 @@ import React from 'react';
 
 const Books = () => {
   const bookList = [
-    { title: 'The Count of monte cresto', author: 'Alexandre Dumas' },
+    { id: 1, title: 'The Count of monte cresto', author: 'Alexandre Dumas' },
     { id: 2, title: 'Romeo and Juliet', author: 'William Shakespeare' },
   ];
   return (
     <>
       {bookList.map((book) => (
-        <>
-          <div className="books flex-column">
-            <div className="title">
-              <h3>{book.title}</h3>
-            </div>
-            <div className="author">
-              <h4>{book.author}</h4>
-            </div>
-            <div className="control fade flex gap-1">
-              <div className="edit">Comments</div>
-              |
-              <div className="edit">Remove</div>
-              |
-              <div className="edit">Edit</div>
-            </div>
+        <div key={book.id} className="books flex-column">
+          <div className="title">
+            <h3>{book.title}</h3>
           </div>
-        </>
+          <div className="author">
+            <h4>{book.author}</h4>
+          </div>
+          <div className="control fade flex gap-1">
+            <div className="edit">Comments</div>
+            |
+            <div className="edit">Remove</div>
+            |
+            <div className="edit">Edit</div>
+          </div>
+        </div>
       ))}
       <div className="add-books flex-column">
         <div className="title fade">
@@ -33,7 +31,7 @@ const Books = () => {
         <form action="" className="flex gap-1">
           <input type="text" placeholder="Book title" />
           <input type="select" placeholder="Category" />
-          <button type="submit">
+          <button type="button">
             <p>ADD BOOK</p>
           </button>
         </form>
