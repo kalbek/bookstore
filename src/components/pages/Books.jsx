@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { addBook } from '../../redux/books/booksSlice';
+import { addBook, removeBook } from '../../redux/books/booksSlice';
 
 const Books = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,13 @@ const Books = () => {
           <div className="control fade flex gap-1">
             <div className="edit">Comments</div>
             |
-            <div className="edit">Remove</div>
+            <button
+              onClick={() => dispatch(removeBook(book.item_id))}
+              className="edit"
+              type="button"
+            >
+              Remove
+            </button>
             |
             <div className="edit">Edit</div>
           </div>
