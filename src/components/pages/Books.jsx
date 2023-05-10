@@ -1,6 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addBook } from '../../redux/books/booksSlice';
 
 const Books = () => {
+  const dispatch = useDispatch();
   const { bookItems } = useSelector((store) => store.book);
   return (
     <>
@@ -28,7 +30,18 @@ const Books = () => {
         <form action="" className="flex gap-1">
           <input type="text" placeholder="Book title" />
           <input type="select" placeholder="Category" />
-          <button type="button">
+          <button
+            type="button"
+            onClick={() => {
+              dispatch(
+                addBook({
+                  item_id: `item4${bookItems.length + 1}`,
+                  title: 'The Count of monte cresto',
+                  author: 'Alexandre Dumas',
+                }),
+              );
+            }}
+          >
             <p>ADD BOOK</p>
           </button>
         </form>
