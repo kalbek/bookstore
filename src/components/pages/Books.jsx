@@ -33,7 +33,9 @@ const Books = () => {
         <form action="" className="flex gap-1">
           <input type="text" placeholder="Book title" />
           <input type="select" placeholder="Category" />
-          <button type="submit">
+          <button
+            type="button"
+          >
             <p>ADD BOOK</p>
           </button>
         </form>
