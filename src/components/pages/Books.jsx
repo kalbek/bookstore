@@ -1,14 +1,11 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 
 const Books = () => {
-  const bookList = [
-    { id: 1, title: 'The Count of monte cresto', author: 'Alexandre Dumas' },
-    { id: 2, title: 'Romeo and Juliet', author: 'William Shakespeare' },
-  ];
+  const { bookItems } = useSelector((store) => store.book);
   return (
     <>
-      {bookList.map((book) => (
-        <div key={book.id} className="books flex-column">
+      {bookItems.map((book) => (
+        <div key={book.item_id} className="books flex-column">
           <div className="title">
             <h3>{book.title}</h3>
           </div>
