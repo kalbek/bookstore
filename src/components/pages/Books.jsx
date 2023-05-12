@@ -4,12 +4,22 @@ import {
   addBook,
   removeBook,
   getBookItems,
+  setBookItems,
 } from '../../redux/books/booksSlice';
 
 const Books = () => {
   const dispatch = useDispatch();
   const { bookItems, isLoading } = useSelector((store) => store.book);
+  // useEffect(() => {
+  //   dispatch(setBookItems());
+  //   console.log('setted');
+  // }, []);
   useEffect(() => {
+    console.log('setting first');
+    dispatch(setBookItems());
+  }, []);
+  useEffect(() => {
+    console.log('getting next');
     dispatch(getBookItems());
   }, []);
 
@@ -69,6 +79,14 @@ const Books = () => {
             }}
           >
             <p>ADD BOOK</p>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              dispatch(setBookItems());
+            }}
+          >
+            <p>SET BOOKS</p>
           </button>
         </form>
       </div>
