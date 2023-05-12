@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import {
   addBook,
   removeBook,
@@ -10,16 +11,32 @@ import {
 const Books = () => {
   const dispatch = useDispatch();
   const { bookItems, isLoading } = useSelector((store) => store.book);
-  // useEffect(() => {
-  //   dispatch(setBookItems());
-  //   console.log('setted');
-  // }, []);
+  const [books, setBooks] = useState({
+    title: '',
+    author: '',
+    category: '',
+  });
+
+  const updateTitle = (e) => {
+    setBooks({ ...books, title: e.target.value });
+  };
+
+  const updateAuthor = (e) => {
+    setBooks({ ...books, author: e.target.value });
+  };
+
+  const handleSetBooks = () => {
+    const bookData = { item_id: uuidv4(), ...books };
+    dispatch(addBook(bookData));
+    dispatch(setBookItems(bookData));
+    setBooks({
+      ...books,
+      title: '',
+      author: '',
+    });
+  };
+
   useEffect(() => {
-    console.log('setting first');
-    dispatch(setBookItems());
-  }, []);
-  useEffect(() => {
-    console.log('getting next');
     dispatch(getBookItems());
   }, []);
 
@@ -62,31 +79,26 @@ const Books = () => {
         <div className="title fade">
           <h2>ADD NEW BOOK</h2>
         </div>
+
         <form action="" className="flex gap-1">
-          <input type="text" placeholder="Book title" />
-          <input type="select" placeholder="Category" />
-          <button
-            type="button"
-            onClick={() => {
-              dispatch(
-                addBook({
-                  item_id: `item4${bookItems.length + 1}`,
-                  title: 'The Count of monte cresto',
-                  author: 'Alexandre Dumas',
-                }),
-                '',
-              );
-            }}
-          >
+          <input
+            id="book_title"
+            name="title"
+            type="text"
+            placeholder="Book title"
+            value={books.title}
+            onChange={updateTitle}
+          />
+          <input
+            id="book_author"
+            name="author"
+            type="text"
+            placeholder="Author"
+            value={books.author}
+            onChange={updateAuthor}
+          />
+          <button type="button" onClick={handleSetBooks}>
             <p>ADD BOOK</p>
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              dispatch(setBookItems());
-            }}
-          >
-            <p>SET BOOKS</p>
           </button>
         </form>
       </div>

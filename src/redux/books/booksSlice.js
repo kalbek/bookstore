@@ -1,64 +1,29 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const url = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/YwCoiJn66UMzjtp0eQN5/books';
-const options = {
-  method: 'GET',
-};
-const postOptions = {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    item_id: 'item124',
-    title: 'The Great Gatsby',
-    author: 'F. Scott Fitzgerald II',
-    category: 'Classics',
-  }),
-};
 
 const initialState = {
-  bookItems: [
-    {
-      item_id: 'item1',
-      title: 'The Great Gatsby',
-      author: 'John Smith',
-      category: 'Fiction',
-    },
-    {
-      item_id: 'item2',
-      title: 'Anna Karenina',
-      author: 'Leo Tolstoy',
-      category: 'Fiction',
-    },
-    {
-      item_id: 'item3',
-      title: 'The Selfish Gene',
-      author: 'Richard Dawkins',
-      category: 'Nonfiction',
-    },
-  ],
+  bookItems: [],
+  error: '',
 };
 
-export const setBookItems = createAsyncThunk('book/setBookItem', async () => {
-  fetch(url, postOptions)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      console.log('succceddded!');
-    })
-    .then((data) => {
-      console.log('data: ', data);
-    })
-    .catch((error) => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
+export const getBookItems = createAsyncThunk('book/getBookItem', async () => {
+  const response = await axios(url);
+  return response.data;
 });
 
-export const getBookItems = createAsyncThunk('book/getBookItem', () => fetch(url, options)
-  .then((response) => response.json())
-  .catch((err) => console.log('error while getting books: ', err)));
+export const setBookItems = createAsyncThunk(
+  'books/setBookItem',
+  async (bookData, thunkAPI) => {
+    try {
+      const resp = await axios.post(url, bookData);
+      return resp.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('something went wrong');
+    }
+  },
+);
 
 const bookSlice = createSlice({
   name: 'book',
@@ -79,22 +44,30 @@ const bookSlice = createSlice({
       state.isLoading = true;
     },
     [getBookItems.fulfilled]: (state, action) => {
-      console.log('get action.payload: ', action.payload);
       state.isLoading = false;
-      // state.bookItems = action.payload;
+      state.bookItems = [];
+      Object.entries(action.payload).forEach((obj) => {
+        const bookObj = {
+          item_id: obj[0],
+          title: obj[1][0].title,
+          author: obj[1][0].author,
+          category: obj[1][0].category,
+        };
+        state.bookItems.push(bookObj);
+      });
     },
-    [setBookItems.rejected]: (state) => {
+    [getBookItems.rejected]: (state, action) => {
+      state.error = action.payload;
       state.isLoading = false;
     },
     [setBookItems.pending]: (state) => {
       state.isLoading = true;
     },
-    [setBookItems.fulfilled]: (state, action) => {
-      console.log('set action.payload: ', action.payload);
+    [setBookItems.fulfilled]: (state) => {
       state.isLoading = false;
-      // state.bookItems = action.payload;
     },
-    [setBookItems.rejected]: (state) => {
+    [setBookItems.rejected]: (state, action) => {
+      state.error = action.payload;
       state.isLoading = false;
     },
   },
