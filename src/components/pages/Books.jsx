@@ -1,9 +1,28 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { addBook, removeBook } from '../../redux/books/booksSlice';
+import { useEffect } from 'react';
+import {
+  addBook,
+  removeBook,
+  getBookItems,
+} from '../../redux/books/booksSlice';
 
 const Books = () => {
   const dispatch = useDispatch();
-  const { bookItems } = useSelector((store) => store.book);
+  const { bookItems, isLoading } = useSelector((store) => store.book);
+  useEffect(() => {
+    dispatch(getBookItems());
+  }, []);
+
+  if (isLoading) {
+    return (
+      <>
+        <div className="loading">
+          <h1>Loading...</h1>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       {bookItems.map((book) => (
@@ -15,17 +34,17 @@ const Books = () => {
             <h4>{book.author}</h4>
           </div>
           <div className="control fade flex gap-1">
-            <div className="edit">Comments</div>
+            <div className="edit ptr">Comments</div>
             |
             <button
               onClick={() => dispatch(removeBook(book.item_id))}
-              className="edit"
+              className="edit ptr"
               type="button"
             >
               Remove
             </button>
             |
-            <div className="edit">Edit</div>
+            <div className="edit ptr">Edit</div>
           </div>
         </div>
       ))}
@@ -45,6 +64,7 @@ const Books = () => {
                   title: 'The Count of monte cresto',
                   author: 'Alexandre Dumas',
                 }),
+                '',
               );
             }}
           >

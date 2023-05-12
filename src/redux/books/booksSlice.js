@@ -1,4 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+const url = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi/apps/J2KbVqxMGGeKzwNN0rjd/books';
+const options = {
+  method: 'GET',
+};
 
 const initialState = {
   bookItems: [
@@ -23,6 +28,10 @@ const initialState = {
   ],
 };
 
+export const getBookItems = createAsyncThunk('book/getBookItem', () => fetch(url, options)
+  .then((resp) => resp)
+  .catch((err) => console.log(err)));
+
 const bookSlice = createSlice({
   name: 'book',
   initialState,
@@ -32,7 +41,22 @@ const bookSlice = createSlice({
     },
     removeBook: (state, action) => {
       const bookId = action.payload;
-      state.bookItems = state.bookItems.filter((book) => book.item_id !== bookId);
+      state.bookItems = state.bookItems.filter(
+        (book) => book.item_id !== bookId,
+      );
+    },
+  },
+  extraReducers: {
+    [getBookItems.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getBookItems.fulfilled]: (state, action) => {
+      console.log('action.payload: ', typeof action.payload);
+      state.isLoading = false;
+      // state.bookItems = action.payload;
+    },
+    [getBookItems.rejected]: (state) => {
+      state.isLoading = false;
     },
   },
 });

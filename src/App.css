@@ -86,3 +86,19 @@ form button * {
   color: #ededed;
   font-weight: bold;
 }
+
+.ptr {
+  cursor: pointer;
+}
+
+.ptr:hover {
+  color: #000;
+  font-weight: bolder;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
