@@ -6,6 +6,8 @@ import {
   removeBook,
   getBookItems,
   setBookItems,
+  deleteBookItems,
+  // deleteBookItems,
 } from '../../redux/books/booksSlice';
 
 const Books = () => {
@@ -64,7 +66,10 @@ const Books = () => {
             <div className="edit ptr">Comments</div>
             |
             <button
-              onClick={() => dispatch(removeBook(book.item_id))}
+              onClick={() => {
+                dispatch(removeBook(book.item_id));
+                dispatch(deleteBookItems(book.item_id));
+              }}
               className="edit ptr"
               type="button"
             >

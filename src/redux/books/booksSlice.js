@@ -25,6 +25,18 @@ export const setBookItems = createAsyncThunk(
   },
 );
 
+export const deleteBookItems = createAsyncThunk(
+  'books/deleteBook',
+  async (bookId, thunkAPI) => {
+    try {
+      const response = await axios.delete(`${url}/${bookId}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('something went wrong');
+    }
+  },
+);
+
 const bookSlice = createSlice({
   name: 'book',
   initialState,
@@ -67,6 +79,16 @@ const bookSlice = createSlice({
       state.isLoading = false;
     },
     [setBookItems.rejected]: (state, action) => {
+      state.error = action.payload;
+      state.isLoading = false;
+    },
+    [deleteBookItems.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteBookItems.fulfilled]: (state) => {
+      state.isLoading = false;
+    },
+    [deleteBookItems.rejected]: (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
     },
