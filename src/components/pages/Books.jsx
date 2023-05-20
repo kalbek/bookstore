@@ -7,7 +7,6 @@ import {
   getBookItems,
   setBookItems,
   deleteBookItems,
-  // deleteBookItems,
 } from '../../redux/books/booksSlice';
 
 const Books = () => {
